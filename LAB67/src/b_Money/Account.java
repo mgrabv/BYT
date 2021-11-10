@@ -2,12 +2,14 @@ package b_Money;
 
 import java.util.Hashtable;
 
-public class Account {
+public class Account {	//Added field name;
+	private String name;
 	private Money content;
-	private Hashtable<String, TimedPayment> timedpayments = new Hashtable<String, TimedPayment>();
+	private Hashtable<String, TimedPayment> timedPayments = new Hashtable<String, TimedPayment>();	//Fixed naming.
 
 	Account(String name, Currency currency) {
 		this.content = new Money(0, currency);
+		this.name = name;
 	}
 
 	/**
@@ -16,12 +18,12 @@ public class Account {
 	 * @param interval Number of ticks between payments
 	 * @param next Number of ticks till first payment
 	 * @param amount Amount of Money to transfer each payment
-	 * @param tobank Bank where receiving account resides
-	 * @param toaccount Id of receiving account
+	 * @param toBank Bank where receiving account resides
+	 * @param toAccount Id of receiving account
 	 */
-	public void addTimedPayment(String id, Integer interval, Integer next, Money amount, Bank tobank, String toaccount) {
-		TimedPayment tp = new TimedPayment(interval, next, amount, this, tobank, toaccount);
-		timedpayments.put(id, tp);
+	public void addTimedPayment(String id, Integer interval, Integer next, Money amount, Bank toBank, String toAccount) {
+		TimedPayment tp = new TimedPayment(interval, next, amount, this, toBank, toAccount);
+		timedPayments.put(id, tp);
 	}
 	
 	/**
@@ -29,7 +31,7 @@ public class Account {
 	 * @param id Id of timed payment to remove
 	 */
 	public void removeTimedPayment(String id) {
-		timedpayments.remove(id);
+		timedPayments.remove(id);
 	}
 	
 	/**
@@ -37,15 +39,15 @@ public class Account {
 	 * @param id Id of timed payment to check for
 	 */
 	public boolean timedPaymentExists(String id) {
-		return timedpayments.containsKey(id);
+		return timedPayments.containsKey(id);
 	}
 
 	/**
 	 * A time unit passes in the system
 	 */
 	public void tick() {
-		for (TimedPayment tp : timedpayments.values()) {
-			tp.tick(); tp.tick();
+		for (TimedPayment tp : timedPayments.values()) {
+			tp.tick();			//Deleted additional tick...
 		}
 	}
 	
@@ -74,20 +76,20 @@ public class Account {
 	}
 
 	/* Everything below belongs to the private inner class, TimedPayment */
-	private class TimedPayment {
+	private class TimedPayment {	//Fixed variable naming
 		private int interval, next;
-		private Account fromaccount;
+		private Account fromAccount;
 		private Money amount;
-		private Bank tobank;
-		private String toaccount;
+		private Bank toBank;
+		private String toAccount;
 		
-		TimedPayment(Integer interval, Integer next, Money amount, Account fromaccount, Bank tobank, String toaccount) {
+		TimedPayment(Integer interval, Integer next, Money amount, Account fromAccount, Bank toBank, String toAccount) {
 			this.interval = interval;
 			this.next = next;
 			this.amount = amount;
-			this.fromaccount = fromaccount;
-			this.tobank = tobank;
-			this.toaccount = toaccount;
+			this.fromAccount = fromAccount;
+			this.toBank = toBank;
+			this.toAccount = toAccount;
 		}
 
 		/* Return value indicates whether or not a transfer was initiated */
@@ -95,14 +97,14 @@ public class Account {
 			if (next == 0) {
 				next = interval;
 
-				fromaccount.withdraw(amount);
+				fromAccount.withdraw(amount);
 				try {
-					tobank.deposit(toaccount, amount);
+					toBank.deposit(toAccount, amount);
 				}
 				catch (AccountDoesNotExistException e) {
 					/* Revert transfer.
 					 * In reality, this should probably cause a notification somewhere. */
-					fromaccount.deposit(amount);
+					fromAccount.deposit(amount);
 				}
 				return true;
 			}
