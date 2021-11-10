@@ -1,6 +1,6 @@
 package a_Introductory;
 
-public class Point {	//Changed Integers to ints.
+public class Point {
 	public Integer x, y;
 	
 	Point(Integer x, Integer y) {

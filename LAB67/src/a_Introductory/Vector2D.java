@@ -1,6 +1,6 @@
 package a_Introductory;
 
-public class Vector2D {	//Changed Integers to ints.
+public class Vector2D {
 	public Integer x, y;
 	
 	Vector2D(Integer x, Integer y) {
