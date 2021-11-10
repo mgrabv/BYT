@@ -1,9 +1,9 @@
 package a_Introductory;
 
 public class Vector2D {	//Changed Integers to ints.
-	public int x, y;
+	public Integer x, y;
 	
-	Vector2D(int x, int y) {
+	Vector2D(Integer x, Integer y) {
 		this.x = x;
 		this.y = y;
 	}

@@ -1,9 +1,9 @@
 package a_Introductory;
 
 public class Point {	//Changed Integers to ints.
-	public int x, y;
+	public Integer x, y;
 	
-	Point(int x, int y) {
+	Point(Integer x, Integer y) {
 		this.x = x;
 		this.y = y;
 	}
